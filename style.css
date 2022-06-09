@@ -10,7 +10,6 @@
 header {
   height: 60px;
   padding: 0 15px;
-  margin-bottom: 50px;
   background-color: #2E3A46;
 }
 
@@ -31,11 +30,30 @@ header select {
 
 
 /* main */
+main {
+  min-height: 100vh;
+  background-color: #1E2D3B;
+  padding: 50px 0;
+}
+
+._container {
+  width: 70%;
+  height: 100%;
+  margin: auto;
+}
+
+._col {
+  background-color: #2E3A46;
+  margin: 0 15px 30px;
+  padding: 12px 12px 50px;
+}
+
 .row img {
   width: 100%;
 }
 
 .row h6 {
+  color: white;
   text-transform: uppercase;
   margin-top: 20px;
   font-size: .8rem;

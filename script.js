@@ -1,7 +1,7 @@
 const app = new Vue ({
   el: '#app',
   data: {
-    apiUrl: 'https://flynn.boolean.careers/exercises/api/array/music',
+    apiUrl: 'http://localhost:8888/php-ajax-dischi/api.php',
 
       albums: [],
 
@@ -20,16 +20,19 @@ const app = new Vue ({
       selectAuthor: 'All',
   },
 
-  computed() {
-    albumsFiltered();
-  },
-
-  methods: {
+  computed: {
     albumsFiltered() {
 
       return  this.albums.filter(this.albumsFilter)
 
-    },
+    }
+  },
+
+  mounted() {
+    this.getApi();
+  },
+
+  methods: {
 
     filterGenre(genre) {
       this.activeGenre = genre;
@@ -42,7 +45,7 @@ const app = new Vue ({
     getApi() {
       axios.get(this.apiUrl)
         .then(file => {
-          this.albums = file.data.response;
+          this.albums = file.data;
           this.isLoaded = true;
           this.getAlbumsGenre();
           this.getAlbumsAuthors();
