@@ -1,5 +1,10 @@
 <?php
 
+$filtered_genre = $_GET['genre'];
+$filtered_author = $_GET['author'];
+
+$result = [];
+
 $albums= [
   [
       "poster" => "https://i.discogs.com/oGtY0vjGWJj-NH67z4mmw-8tN8MdtP8bWEWRJMCN9N0/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzOTc4/NzYtMTIxNjI0NzM3/Ny5qcGVn.jpeg",
@@ -73,8 +78,44 @@ $albums= [
   ]
 ];
 
+if ($filtered_author == 'All' && $filtered_genre == 'All') {
+
+    $result = $albums;
+
+}
+elseif (!empty($filtered_genre) && $filtered_author == 'All') {
+
+    $result = [];
+    
+    foreach ($albums as $album) {
+        if ($album['genre'] == $filtered_genre) {
+            $result[] = $album;
+        }
+    }
+} 
+elseif (!empty($filtered_author) && $filtered_genre == 'All') {
+    
+    $result = [];
+        
+    foreach ($albums as $album) {
+        if ($album['author'] == $filtered_author) {
+            $result[] = $album;
+        }
+    }
+}
+else {
+    
+    $result = [];
+        
+    foreach ($albums as $album) {
+        if ($album['author'] == $filtered_author && $album['genre'] == $filtered_genre) {
+            $result[] = $album;
+        }
+    }
+};
+
 header('Content-Type: application/json');
 
-echo json_encode($albums);
+echo json_encode($result);
 
 ?>

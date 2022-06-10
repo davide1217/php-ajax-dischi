@@ -15,17 +15,10 @@ const app = new Vue ({
 
       activeAuthor: 'All',
 
-      selectValue: 'All',
-      
-      selectAuthor: 'All',
   },
 
   computed: {
-    albumsFiltered() {
-
-      return  this.albums.filter(this.albumsFilter)
-
-    }
+    
   },
 
   mounted() {
@@ -34,16 +27,10 @@ const app = new Vue ({
 
   methods: {
 
-    filterGenre(genre) {
-      this.activeGenre = genre;
-    },
-
-    filterAuthor(author) {
-      this.activeAuthor = author;
-    },
-
     getApi() {
-      axios.get(this.apiUrl)
+      this.albums = [],
+
+      axios.get(this.apiUrl + `?genre=${this.activeGenre}&author=${this.activeAuthor}`)
         .then(file => {
           this.albums = file.data;
           this.isLoaded = true;
@@ -72,17 +59,5 @@ const app = new Vue ({
       }
     },
 
-    albumsFilter(album) {
-      
-      if(this.activeGenre != 'All' && this.activeAuthor != 'All') {
-        return album.genre == this.activeGenre && album.author == this.activeAuthor
-      }
-       else if(this.activeGenre != 'All' || this.activeAuthor != 'All') {
-        return album.genre == this.activeGenre || album.author == this.activeAuthor
-      }
-       else {
-        return album == album
-      }
-    }
   }
 })

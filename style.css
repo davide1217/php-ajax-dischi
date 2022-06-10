@@ -5,6 +5,9 @@
   font-family: 'roboto';
 }
 
+body {
+  position: relative;
+}
 
 /* header */
 header {
@@ -31,21 +34,30 @@ header select {
 
 /* main */
 main {
-  min-height: 100vh;
+  height: calc(100vh - 60px);
   background-color: #1E2D3B;
   padding: 50px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  text-transform: uppercase;
+  text-align: center;
+  color: white;
 }
 
 ._container {
   width: 70%;
   height: 100%;
-  margin: auto;
+  overflow-y: auto;
 }
 
 ._col {
   background-color: #2E3A46;
   margin: 0 15px 30px;
-  padding: 12px 12px 50px;
+  padding: 12px 12px 42px;
 }
 
 .row img {
@@ -88,7 +100,7 @@ main {
   font-size: 1.5rem;
 }
 
-#loading span {
+#loading > span {
   position: absolute;
   left: 26%;
   top: 40%;

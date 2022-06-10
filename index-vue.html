@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <link rel="stylesheet" href="style.css">
@@ -19,47 +20,35 @@
       <i class="fa-brands fa-spotify"></i>
   
       <div>
-        <select v-model="selectValue" @change="albumsFiltered()">
+
+        <select @change="getApi()" v-model="activeGenre" name="genre">
           <option value="All">tutti i generi</option>
   
           <option v-for="genre in albumsGenre" 
           :value="genre"
           :key="genre"
           >{{genre}}</option>
-  
         </select>
   
-        <select v-model="selectAuthor" @change="albumsFiltered()">
+        <select @change="getApi()" v-model="activeAuthor" name="author">
           <option value="All">tutti gli autori</option>
   
           <option v-for="author in albumsAuthors" 
           :value="author"
           :key="author"
           >{{author}}</option>
-  
         </select>
+
       </div>
     </header>
 
     <main>
-      <div class="_container">
+      <div v-if="isLoaded" class="_container">
 
-        <div v-if="isLoaded" class="container-fluid">
+        <div v-if="albums.length != 0" class="container-fluid">
+          <div class="row justify-content-center flex-wrap">
   
-          <div v-if="activeGenre == '' " class="row flex-wrap">
-  
-            <div v-for="(album, index) in albums" :key="`albumn-${index}`" class="_col col-2 d-flex flex-columnalign-items-center text-center">
-              <img :src="album.poster" alt="">
-              <h6>{{album.title}}</h6>
-              <span>{{album.author}}</span>
-              <span>{{album.year}}</span>
-            </div>
-  
-          </div>
-  
-          <div v-else class="row flex-wrap">
-  
-            <div v-for="(album, index) in albumsFiltered" :key="`album-${index}`" class="_col col-2 d-flex flex-column align-items-center text-center">
+            <div v-for="(album, index) in albums" :key="`albumn-${index}`" class="_col col-10 col-sm-5 col-md-3 col-lg-2 d-flex flex-column align-items-center text-center">
               <img :src="album.poster" alt="">
               <h6>{{album.title}}</h6>
               <span>{{album.author}}</span>
@@ -68,17 +57,22 @@
   
           </div>
         </div>
-  
+
+        <div v-else class="h-100 d-flex justify-content-center align-items-center">
+          <h1>Ci dispiace, non abbiamo niente del genere <br>
+            prova a cercare altro :)
+          </h1>
         </div>
   
-        <div v-else id="loading">
-          <span>
-            <span>boolean</span><br>
-            is workin for you
-          </span>
-        </div>
-        
       </div>
+  
+      <div v-else id="loading">
+        <span>
+          <span>boolean</span><br>
+          is workin for you
+        </span>
+      </div>
+        
     </main>
   </div>
 
